@@ -1,0 +1,32 @@
+import telegram
+from telegram import Update
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+import pandas as pd
+import requests
+
+def telegram_bot_sendtext(bot_message):
+    
+    bot_token = '6169490344:AAF__4Isne0bXBzJbu3wLW1aTDGK9Z17nGs'
+    bot_chatID = '14890812'
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+
+    response = requests.get(send_text)
+
+    return response.json()
+
+df=pd.read_csv('https://squeezemetrics.com/monitor/static/DIX.csv')
+GEX=float(df.gex.iloc[-1])
+DIX=df.iloc[-1]
+texto = DIX.to_string()
+
+def report():
+    if GEX <= 0:
+        test = telegram_bot_sendtext("Invertir en Plan de Pensiones. GEX<0")
+        test = telegram_bot_sendtext(texto)
+    else:
+        test = telegram_bot_sendtext(texto)
+
+test = telegram_bot_sendtext(texto)
+
+
+
